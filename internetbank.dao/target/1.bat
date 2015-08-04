@@ -1,0 +1,1 @@
+java -jar internetbank.dao-0.0.1-SNAPSHOT.jar \dao\impl.RunDAO

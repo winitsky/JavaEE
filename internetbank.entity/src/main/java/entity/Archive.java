@@ -6,6 +6,7 @@ public class Archive {
 	private int operationID;
 	private int sum;
 	private String date;
+	private String nameOperaion;
 	
 	public Archive() {
 		super();
@@ -17,6 +18,28 @@ public class Archive {
 		this.operationID = operationID;
 		this.sum = sum;
 		this.date = date;
+	}
+	
+	
+
+	public Archive(int userID, int operationID, int sum, String date,
+			String nameOperaion) {
+		super();
+		this.userID = userID;
+		this.operationID = operationID;
+		this.sum = sum;
+		this.date = date;
+		this.nameOperaion = nameOperaion;
+	}
+	
+	
+
+	public String getNameOperaion() {
+		return nameOperaion;
+	}
+
+	public void setNameOperaion(String nameOperaion) {
+		this.nameOperaion = nameOperaion;
 	}
 
 	public int getId() {
@@ -62,9 +85,8 @@ public class Archive {
 	@Override
 	public String toString() {
 		return "Archive [id=" + id + ", userID=" + userID + ", operationID="
-				+ operationID + ", sum=" + sum + ", date=" + date + "]";
+				+ operationID + ", sum=" + sum + ", date=" + date
+				+ ", nameOperaion=" + nameOperaion + "]";
 	}
-	
-	
 
 }

@@ -28,6 +28,11 @@ public class JDBCAccountsDAOImpl extends AbstractDAO<Account> {
 		if (methodName == "delete") {
 			statement.setInt(1, object.getAccount());
 		}
+		if (methodName == "update") {
+			statement.setInt(1, object.getBalance());
+			statement.setInt(2, object.getUserID());
+
+		}
 	}
 
 	@Override

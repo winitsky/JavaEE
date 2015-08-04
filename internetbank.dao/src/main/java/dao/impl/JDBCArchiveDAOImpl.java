@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,12 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import pool.ConnectionPool;
 import dao.AbstractDAO;
+import dbutil.DBUtils;
 import entity.Archive;
+import entity.User;
 
 public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> {
 	private static final ResourceBundle DB_BUNDLE = ResourceBundle
-			.getBundle("resources.dbuser");
+			.getBundle("resources.dbarchive");
 
 	@Override
 	public void setParameters(String methodName, PreparedStatement statement,
@@ -40,8 +44,8 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> {
 
 			statement.setInt(1, object.getUserID());
 			statement.setInt(2, object.getOperationID());
-			statement.setDate(3, date);
-			statement.setInt(4, object.getSum());
+			statement.setInt(3, object.getSum());
+			statement.setDate(4, date);
 		}
 		if (methodName == "delete") {
 			statement.setInt(1, object.getId());
@@ -90,4 +94,34 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> {
 		return record;
 	}
 
+	public List<Archive> readByUserID(int userID) {
+		List<Archive> archive = new ArrayList<Archive>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			connection = ConnectionPool.getInstance().getConnection();
+			statement = connection.prepareStatement(getSql("readByUserID"));
+			statement.setInt(1, userID);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Archive record = new Archive();
+				record.setId(resultSet.getInt("user_id"));
+				record.setNameOperaion(resultSet.getString("name"));
+				record.setSum(resultSet.getInt("sum"));
+			//	record.setOperationID(resultSet.getInt("operation_id"));
+				record.setDate(resultSet.getString("date"));
+				
+				
+				archive.add(record);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtils.close(statement, connection);
+		}
+		
+		return archive;
+		
+	}
 }

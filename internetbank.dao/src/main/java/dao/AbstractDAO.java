@@ -6,6 +6,7 @@ import java.util.List;
 import pool.ConnectionPool;
 import dbutil.DBUtils;
 
+
 public abstract class AbstractDAO<T> implements GenericDAO<T> {
 
 	public void delete(T object){
@@ -21,6 +22,22 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 		} finally {
 			DBUtils.close(statement, connection);
 		}
+	}
+	
+	public void update(T object){
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = ConnectionPool.getInstance().getConnection();
+			statement = connection.prepareStatement(getSql("update"));
+			setParameters("update", statement, object);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtils.close(statement, connection);
+		}
+		
 	}
 	
 	
