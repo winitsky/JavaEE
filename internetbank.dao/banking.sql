@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS `accounts` (
 -- Дамп данных таблицы internet_banking.accounts: ~3 rows (приблизительно)
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
 INSERT INTO `accounts` (`account`, `user_id`, `balance`) VALUES
-	(123456789, 1, 1000000),
+	(123456789, 1, 200000),
 	(321654987, 3, 3000000),
-	(987654321, 2, 2000000);
+	(987654321, 2, 5000000);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 
 
@@ -44,6 +44,14 @@ CREATE TABLE IF NOT EXISTS `archive` (
 
 -- Дамп данных таблицы internet_banking.archive: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `archive` DISABLE KEYS */;
+INSERT INTO `archive` (`id`, `user_id`, `operation_id`, `sum`, `date`) VALUES
+	(1, 2, 2, 1000, '2015-08-04'),
+	(2, 2, 3, 2000, '2015-08-04'),
+	(3, 3, 3, 1000, '2015-08-04'),
+	(4, 1, 3, 1000, '2015-08-04'),
+	(5, 1, 3, 1000, '2015-08-04'),
+	(6, 1, 3, 1000, '2015-08-04'),
+	(7, 1, 3, 1000, '2015-08-04');
 /*!40000 ALTER TABLE `archive` ENABLE KEYS */;
 
 
