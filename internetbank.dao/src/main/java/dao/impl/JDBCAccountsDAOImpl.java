@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,12 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import dao.AbstractDAO;
-import entity.Account;
+import org.apache.log4j.Logger;
 
-public class JDBCAccountsDAOImpl extends AbstractDAO<Account> {
+import pool.ConnectionPool;
+import dao.AbstractDAO;
+import dao.InfoByUserIdDAO;
+import dbutil.DBUtils;
+import entity.Account;
+import exceptions.CustomException;
+
+public class JDBCAccountsDAOImpl extends AbstractDAO<Account> implements
+		InfoByUserIdDAO<Account> {
 	private static final ResourceBundle DB_BUNDLE = ResourceBundle
 			.getBundle("resources.dbaccounts");
+	static Logger logger = Logger.getLogger(JDBCUsersDAOImpl.class);
+	
+	private static JDBCAccountsDAOImpl instance = new JDBCAccountsDAOImpl();
+
+	private JDBCAccountsDAOImpl() {
+	}
+
+	public static synchronized JDBCAccountsDAOImpl getInstance() {
+		if (instance == null) {
+			instance = new JDBCAccountsDAOImpl();
+		}
+		return instance;
+	}
 
 	@Override
 	public void setParameters(String methodName, PreparedStatement statement,
@@ -30,7 +51,7 @@ public class JDBCAccountsDAOImpl extends AbstractDAO<Account> {
 		}
 		if (methodName == "update") {
 			statement.setInt(1, object.getBalance());
-			statement.setInt(2, object.getUserID());
+			statement.setInt(2, object.getAccount());
 
 		}
 	}
@@ -52,8 +73,7 @@ public class JDBCAccountsDAOImpl extends AbstractDAO<Account> {
 				accounts.add(account);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		}
 		return accounts;
 	}
@@ -68,9 +88,30 @@ public class JDBCAccountsDAOImpl extends AbstractDAO<Account> {
 				account.setBalance(resultSet.getInt("balance"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		}
 		return account;
+	}
+
+	public List<Account> getInfoByUserID(int useID) {
+		List<Account> accounts = new ArrayList<Account>();
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			connection = ConnectionPool.getInstance().getConnection();
+			statement = connection.prepareStatement(getSql("cuurent_accounts"));
+			statement.setInt(1, useID);
+			resultSet = statement.executeQuery();
+			accounts = createList(resultSet);
+		} catch (SQLException e) {
+			logger.error(new CustomException("Custom exception", e));
+		} finally {
+			DBUtils.close(statement, resultSet, connection);
+		}
+		return accounts;
+
 	}
 
 }

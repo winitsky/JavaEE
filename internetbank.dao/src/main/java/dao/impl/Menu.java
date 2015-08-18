@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.AbstractDAO;
+import dao.InfoByUserIdDAO;
 import entity.Account;
 import entity.Operation;
 import entity.Role;
@@ -32,7 +33,7 @@ public class Menu {
 			User newUser = new User();
 			newUser.setLogin("ivanov@mail.ru");
 			newUser.setPassword("123");
-			AbstractDAO<User> userDAO = new JDBCUsersDAOImpl();
+			AbstractDAO<User> userDAO = JDBCUsersDAOImpl.getInstance();
 			//System.out.println(userDAO.get(newUser));
 
 			// User n1 = new User("sikorsky@mail.ru", "123", "���������",
@@ -46,7 +47,7 @@ public class Menu {
 			System.out.println("Main menu. Input 6");
 			number = scanner.nextInt();
 		} else if (number == 2) {
-			AbstractDAO<Account> accountsDAO = new JDBCAccountsDAOImpl();
+			AbstractDAO<Account> accountsDAO = JDBCAccountsDAOImpl.getInstance();
 			ArrayList<Account> accounts = (ArrayList<Account>) accountsDAO
 					.readAll();
 			System.out.println("Table accounts");
@@ -59,9 +60,9 @@ public class Menu {
 			User newUser = new User();
 			newUser.setLogin("ivanov@mail.ru");
 			newUser.setPassword("123");
-			AbstractDAO<User> userDAO = new JDBCUsersDAOImpl();
+			AbstractDAO<User> userDAO = JDBCUsersDAOImpl.getInstance();
 
-			AbstractDAO<Operation> operationsDAO = new JDBCOperationsDAOImpl();
+			AbstractDAO<Operation> operationsDAO = JDBCOperationsDAOImpl.getInstance();
 			ArrayList<Operation> operations = (ArrayList<Operation>) operationsDAO
 					.readAll();
 			System.out.println("All operations");
@@ -71,14 +72,14 @@ public class Menu {
 			}
 
 			System.out.println("Operations for user");
-			JDBCOperationsDAOImpl currentOperations = new JDBCOperationsDAOImpl();
-			System.out.println(currentOperations.currentOperation(userDAO
-					.get(newUser)));
+			InfoByUserIdDAO<?> currentOperations = JDBCOperationsDAOImpl.getInstance();
+			System.out.println(currentOperations.getInfoByUserID(userDAO
+					.get(newUser).getId()));
 			;
 			System.out.println("Main menu. Input 6 ");
 			number = scanner.nextInt();
 		} else if (number == 4) {
-			AbstractDAO<Role> rolesDAO = new JDBCRoleDAOImpl();
+			AbstractDAO<Role> rolesDAO = JDBCRoleDAOImpl.getInstance();
 			ArrayList<Role> roles = (ArrayList<Role>) rolesDAO.readAll();
 			System.out.println("Table roles");
 			for (Role role : roles) {
@@ -88,8 +89,8 @@ public class Menu {
 			number = scanner.nextInt();
 		} else if (number == 5) {
 			System.out.println("Archive operation user_id=2");
-			JDBCArchiveDAOImpl archiveDAO = new JDBCArchiveDAOImpl();
-			System.out.println(archiveDAO.readByUserID(2));
+			InfoByUserIdDAO<?> archiveDAO = JDBCArchiveDAOImpl.getInstance();
+			System.out.println(archiveDAO.getInfoByUserID(2));
 			System.out.println("Main menu. Input 6");
 			number = scanner.nextInt();
 		} else if (number == 0) {

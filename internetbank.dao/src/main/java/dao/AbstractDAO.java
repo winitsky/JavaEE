@@ -3,11 +3,16 @@ package dao;
 import java.sql.*;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import pool.ConnectionPool;
+import dao.impl.JDBCUsersDAOImpl;
 import dbutil.DBUtils;
+import exceptions.CustomException;
 
 
 public abstract class AbstractDAO<T> implements GenericDAO<T> {
+	static Logger logger = Logger.getLogger(JDBCUsersDAOImpl.class);
 
 	public void delete(T object){
 		Connection connection = null;
@@ -18,7 +23,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 			setParameters("delete", statement, object);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		} finally {
 			DBUtils.close(statement, connection);
 		}
@@ -33,7 +38,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 			setParameters("update", statement, object);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		} finally {
 			DBUtils.close(statement, connection);
 		}
@@ -50,7 +55,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 			setParameters("create", statement, object);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		} finally {
 			DBUtils.close(statement, connection);
 		}
@@ -68,10 +73,12 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 			resultSet = statement.executeQuery();
 			result = create(resultSet);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		} finally {
 			DBUtils.close(statement, resultSet, connection);
 		}
+		
+		logger.info("Пользователь" + result);
 		return result;
 	}
 
@@ -86,7 +93,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 			resultSet = statement.executeQuery(getSql("readAll"));
 			result = createList(resultSet);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		} finally {
 			DBUtils.close(statement, resultSet, connection);
 		}

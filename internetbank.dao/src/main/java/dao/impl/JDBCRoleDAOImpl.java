@@ -7,12 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.Logger;
+
 import dao.AbstractDAO;
 import entity.Role;
+import exceptions.CustomException;
 
 public class JDBCRoleDAOImpl extends AbstractDAO<Role> {
 	private static final ResourceBundle DB_BUNDLE = ResourceBundle
 			.getBundle("resources.dbrole");
+	static Logger logger = Logger.getLogger(JDBCUsersDAOImpl.class);
+
+	private static JDBCRoleDAOImpl instance = new JDBCRoleDAOImpl();
+
+	private JDBCRoleDAOImpl() {
+	}
+
+	public static synchronized JDBCRoleDAOImpl getInstance() {
+		if (instance == null) {
+			instance = new JDBCRoleDAOImpl();
+		}
+		return instance;
+	}
 
 	@Override
 	public void setParameters(String methodName, PreparedStatement statement,
@@ -46,8 +62,7 @@ public class JDBCRoleDAOImpl extends AbstractDAO<Role> {
 				roles.add(role);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		}
 		return roles;
 	}
@@ -62,7 +77,7 @@ public class JDBCRoleDAOImpl extends AbstractDAO<Role> {
 				role.setRole(resultSet.getInt("role"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		}
 		return role;
 	}

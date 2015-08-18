@@ -17,6 +17,16 @@ public class Operation {
 		this.type = type;
 	}
 
+	
+	
+	public Operation(int id, String name, int account, int type) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.account = account;
+		this.type = type;
+	}
+
 	public int getId() {
 		return id;
 	}

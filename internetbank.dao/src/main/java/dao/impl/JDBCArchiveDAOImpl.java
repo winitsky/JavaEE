@@ -11,15 +11,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.Logger;
+
 import pool.ConnectionPool;
 import dao.AbstractDAO;
+import dao.InfoByUserIdDAO;
 import dbutil.DBUtils;
 import entity.Archive;
-import entity.User;
+import exceptions.CustomException;
 
-public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> {
+public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> implements
+		InfoByUserIdDAO<Archive> {
 	private static final ResourceBundle DB_BUNDLE = ResourceBundle
 			.getBundle("resources.dbarchive");
+	static Logger logger = Logger.getLogger(JDBCUsersDAOImpl.class);
+
+	private static JDBCArchiveDAOImpl instance = new JDBCArchiveDAOImpl();
+
+	private JDBCArchiveDAOImpl() {
+	}
+
+	public static synchronized JDBCArchiveDAOImpl getInstance() {
+		if (instance == null) {
+			instance = new JDBCArchiveDAOImpl();
+		}
+		return instance;
+	}
 
 	@Override
 	public void setParameters(String methodName, PreparedStatement statement,
@@ -34,11 +51,13 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> {
 		}
 		if (methodName == "create") {
 			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+			long curTime = System.currentTimeMillis();
+
 			java.util.Date parsed = null;
 			try {
-				parsed = format.parse(object.getDate());
+				parsed = format.parse(format.format(new Date(curTime)));
 			} catch (ParseException e) {
-				e.printStackTrace();
+				logger.error(new CustomException("Custom exception", e));
 			}
 			Date date = new Date(parsed.getTime());
 
@@ -71,8 +90,7 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> {
 				archive.add(record);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		}
 		return archive;
 	}
@@ -89,12 +107,12 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> {
 				record.setSum(resultSet.getInt("sum"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		}
 		return record;
 	}
 
-	public List<Archive> readByUserID(int userID) {
+	public List<Archive> getInfoByUserID(int userID) {
 		List<Archive> archive = new ArrayList<Archive>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -109,19 +127,15 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> {
 				record.setId(resultSet.getInt("user_id"));
 				record.setNameOperaion(resultSet.getString("name"));
 				record.setSum(resultSet.getInt("sum"));
-			//	record.setOperationID(resultSet.getInt("operation_id"));
 				record.setDate(resultSet.getString("date"));
-				
-				
 				archive.add(record);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		} finally {
 			DBUtils.close(statement, connection);
 		}
-		
+
 		return archive;
-		
 	}
 }

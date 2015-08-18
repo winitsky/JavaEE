@@ -8,15 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.Logger;
+
 import pool.ConnectionPool;
 import dao.AbstractDAO;
+import dao.InfoByUserIdDAO;
 import dbutil.DBUtils;
 import entity.Operation;
-import entity.User;
+import exceptions.CustomException;
 
-public class JDBCOperationsDAOImpl extends AbstractDAO<Operation> {
+public class JDBCOperationsDAOImpl extends AbstractDAO<Operation> implements
+		InfoByUserIdDAO<Operation> {
 	private static final ResourceBundle DB_BUNDLE = ResourceBundle
 			.getBundle("resources.dboperations");
+	static Logger logger = Logger.getLogger(JDBCUsersDAOImpl.class);
+
+	private static JDBCOperationsDAOImpl instance = new JDBCOperationsDAOImpl();
+
+	private JDBCOperationsDAOImpl() {
+	}
+
+	public static synchronized JDBCOperationsDAOImpl getInstance() {
+		if (instance == null) {
+			instance = new JDBCOperationsDAOImpl();
+		}
+		return instance;
+	}
 
 	@Override
 	public void setParameters(String methodName, PreparedStatement statement,
@@ -25,10 +42,9 @@ public class JDBCOperationsDAOImpl extends AbstractDAO<Operation> {
 			statement.setInt(1, object.getId());
 		}
 		if (methodName == "create") {
-			statement.setInt(1, object.getId());
-			statement.setString(2, object.getName());
-			statement.setInt(3, object.getAccount());
-			statement.setInt(4, object.getType());
+			statement.setString(1, object.getName());
+			statement.setInt(2, object.getAccount());
+			statement.setInt(3, object.getType());
 		}
 		if (methodName == "delete") {
 			statement.setInt(1, object.getId());
@@ -53,8 +69,7 @@ public class JDBCOperationsDAOImpl extends AbstractDAO<Operation> {
 				operations.add(operation);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		}
 		return operations;
 	}
@@ -70,12 +85,12 @@ public class JDBCOperationsDAOImpl extends AbstractDAO<Operation> {
 				operation.setType(resultSet.getInt("type"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		}
 		return operation;
 	}
 
-	public List<Operation> currentOperation(User user) {
+	public List<Operation> getInfoByUserID(int userID) {
 		List<Operation> operations = new ArrayList<Operation>();
 
 		Connection connection = null;
@@ -85,15 +100,14 @@ public class JDBCOperationsDAOImpl extends AbstractDAO<Operation> {
 			connection = ConnectionPool.getInstance().getConnection();
 			statement = connection
 					.prepareStatement(getSql("current_operations"));
-			statement.setInt(1, user.getId());
+			statement.setInt(1, userID);
 			resultSet = statement.executeQuery();
 			operations = createList(resultSet);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(new CustomException("Custom exception", e));
 		} finally {
 			DBUtils.close(statement, resultSet, connection);
 		}
-
 		return operations;
 	}
 

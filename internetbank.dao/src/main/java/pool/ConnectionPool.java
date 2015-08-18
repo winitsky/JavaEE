@@ -10,7 +10,6 @@ public class ConnectionPool {
 			.getBundle("resources.database");
 	private static ConnectionPool instance;
 	private BasicDataSource dataSource;
-//	Connection connection;
 
 	public ConnectionPool() {
 		dataSource = new BasicDataSource();

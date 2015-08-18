@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns="ibank_test" targetNamespace="ibank_test">	
+	<xsd:element name="users" type="users__type" />
+	<xsd:element name="accounts" type="accounts__type" />
+	<xsd:element name="archive" type="archive__type" />
+	<xsd:element name="operations" type="operations__type" />
+	<xsd:element name="role" type="role__type" />
+	<xsd:complexType name="users__type">
+		<xsd:attribute name="ID" use="optional" />
+		<xsd:attribute name="LOGIN" use="optional" />
+		<xsd:attribute name="PASSWORD" use="optional" />
+		<xsd:attribute name="SURNAME" use="optional" />
+		<xsd:attribute name="NAME" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="accounts__type">
+		<xsd:attribute name="ACCOUNT" use="optional" />
+		<xsd:attribute name="USER_ID" use="optional" />
+		<xsd:attribute name="BALANCE" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="archive__type">
+		<xsd:attribute name="ID" use="optional" />
+		<xsd:attribute name="USER_ID" use="optional" />
+		<xsd:attribute name="OPERATION_ID" use="optional" />
+		<xsd:attribute name="SUM" use="optional" />
+		<xsd:attribute name="DATE" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="operations__type">
+		<xsd:attribute name="ID" use="optional" />
+		<xsd:attribute name="NAME" use="optional" />
+		<xsd:attribute name="ACCOUNT" use="optional" />
+		<xsd:attribute name="TYPE" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="role__type">
+		<xsd:attribute name="ID" use="optional" />
+		<xsd:attribute name="USER_ID" use="optional" />
+		<xsd:attribute name="ROLE" use="optional" />
+	</xsd:complexType>
+	
+
+</xsd:schema>

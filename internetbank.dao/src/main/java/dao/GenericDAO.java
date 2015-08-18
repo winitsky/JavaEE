@@ -8,10 +8,10 @@ public interface GenericDAO<T> {
 
 	void create(T object);
 
-	/*void update(T object);*/
-
 	void delete(T object);
 	
 	List<T> readAll();
+	
+	void update(T object);
 
 }
