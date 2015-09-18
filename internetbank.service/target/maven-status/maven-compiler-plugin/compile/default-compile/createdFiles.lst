@@ -1,0 +1,11 @@
+service\UserServiceInterface.class
+org\internetbank\service\App.class
+service\RoleInterface.class
+service\UserService.class
+service\AccountInterface.class
+service\OperationInterface.class
+service\ArchiveService.class
+service\RoleService.class
+service\ArchiveInterface.class
+service\AccountService.class
+service\OperationService.class

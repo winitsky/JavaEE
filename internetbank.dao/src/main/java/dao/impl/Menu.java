@@ -23,6 +23,7 @@ public class Menu {
 		System.out.println("Your input");
 		chooseMenu();
 	}
+	
 
 	public void chooseMenu() {
 

@@ -16,5 +16,6 @@
     <br/>
    <input type="submit" value=<fmt:message key="main.submit.button"/>>
 </form>
+	 <p><a href="ServletController?command=registration">Registration new user</a></p>
 </body>
 </html>

@@ -10,7 +10,7 @@ public interface AccountInterface {
 	
 	void deleteAccount(int account);
 	
-	void updateBalance(int balance,Account account );
+	boolean updateBalance(int balance,Account account );
 	
 	Account getAccount(int account);
 	
@@ -18,6 +18,6 @@ public interface AccountInterface {
 	
 	List<Account> getAllAcconts();
 	
-	List<Account> getAccontsByUserID(int userID );
+	Account getAccontsByUserID(int userID );
 	
 }

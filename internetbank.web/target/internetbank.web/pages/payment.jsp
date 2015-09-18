@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
 <title>Payment</title>
 </head>
 <body>
@@ -14,8 +13,7 @@
 			<tr>
 				<td><fmt:message key="list.payment.operation" /></td>
 				<td><select size="1" name="paymentList">
-						<option value=0>Choose payment</option>
-						<c:forEach items="${operations}" var="payment">
+							<c:forEach items="${operations}" var="payment">
 							<option value="${payment.id}">${payment.name}</option>
 						</c:forEach>
 				</select></td>

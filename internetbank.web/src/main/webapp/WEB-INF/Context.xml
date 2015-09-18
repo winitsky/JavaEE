@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/ClientApp">
+    <Resource
+      name="jdbc/ibank"
+      type="javax.sql.DataSource"
+      username="root"
+      password="admin123"
+      driverClassName="com.mysql.jdbc.Driver"
+      maxIdle="2"
+      maxWait="5000"
+      validationQuery="SELECT 1"
+      url="jdbc:mysql://127.0.0.1:3306/internet_bank"
+      maxActive="4">
+   </Resource>
+
+    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+        debug="99"
+        localDataSource="true"
+        dataSourceName="jdbc/ibank"
+        userTable="users" userNameCol="login" userCredCol="password"
+        userRoleTable="user_roles" roleNameCol="name"/>
+    
+</Context>

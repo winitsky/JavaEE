@@ -1,6 +1,7 @@
 package command;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,21 +26,16 @@ public class UserCommand implements Command {
 			UserService userService = new UserService();
 			AccountService accountService = new AccountService();
 			ArchiveService archiveService = new ArchiveService();
-			
-			String userID = (String) session.getAttribute("id");
-			User user = null;
-			user = userService.getUserByID(Integer.valueOf(userID));
-			ArrayList<Account> accounts = (ArrayList<Account>) accountService
-					.getAccontsByUserID(user.getId());
-			ArrayList<Archive> archive = (ArrayList<Archive>) archiveService
-					.getArchiveByUserID(user.getId());
 
+			String userID = (String) session.getAttribute("id");
+			User user = userService.getUserByID(Integer.valueOf(userID));
+			List<Archive> archive =  archiveService.getArchiveByUserID(user.getId());
+			Account account = accountService.getAccontsByUserID(user.getId());
 			request.setAttribute("username", user.getName());
 			request.setAttribute("surname", user.getSurname());
-			request.setAttribute("accounts", accounts);
+			request.setAttribute("accounts", account);
 			request.setAttribute("archive", archive);
 
-			
 			page = Constants.PAGES_MAIN;
 		}
 		return page;

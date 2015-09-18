@@ -1,76 +1,117 @@
 package service;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
-import entity.User;
-import entity.Role;
+
+
 import entity.Account;
-import dao.AbstractDAO;
-import dao.GenericDAO;
-import dao.UserByIDDAO;
-import dao.impl.JDBCUsersDAOImpl;
-import dao.impl.JDBCRoleDAOImpl;
-import dao.impl.JDBCAccountsDAOImpl;
+import entity.User;
+import dao.UserDAO;
+import dao.impl.UserDAOPojoImpl;
 
 public class UserService implements UserServiceInterface {
-	static Logger logger = Logger.getLogger(JDBCUsersDAOImpl.class);
+	static Logger logger = Logger.getLogger(UserService.class);
+	/*static {
+		new DOMConfigurator().doConfigure("log4j.xml", LogManager.getLoggerRepository());
+		}*/
+	//static Logger logger = Logger.getLogger(UserService.class);
+	
 
-	private GenericDAO<User> userDAO = JDBCUsersDAOImpl.getInstance();
-	private UserByIDDAO userByID = JDBCUsersDAOImpl.getInstance();
+	private UserDAO hibernateUserDAO = UserDAOPojoImpl.getInstance();
 
-	public UserByIDDAO getUserByID() {
-		return userByID;
-	}
-
-	public void setUserByID(UserByIDDAO userByID) {
-		this.userByID = userByID;
-	}
-
-	public GenericDAO<User> getUserDAO() {
-		return userDAO;
-	}
-
-	public void setUserDAO(GenericDAO<User> userDAO) {
-		this.userDAO = userDAO;
-	}
-
-	public void addUser(String login, String password, String surname,
+	public boolean addUser(String login, String password, String surname,
 			String name, int role, int account, int balance) {
+		boolean checkAdd = false;
+		
 
-		AbstractDAO<Role> roleDAO = JDBCRoleDAOImpl.getInstance();
-		AbstractDAO<Account> accountDAO = JDBCAccountsDAOImpl.getInstance();
+		try {
+			boolean check = hibernateUserDAO.checkLogin(login);
+			if (check) {
+				System.out.println("Пользователь с таким именем существует");
+			} else {
+				User user = new User(login, password, surname, name);
+				hibernateUserDAO.add(user);
+				user = hibernateUserDAO.getUser(login, password);
+				Account accountUser = new Account(account, user.getId(),
+						balance);
+				hibernateUserDAO.updateUser(user, accountUser, role);
+				logger.info("Add new user login =  " + login);
+				checkAdd = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			checkAdd = false;
+			logger.error("Mistake crate new user " + e );
+			return checkAdd;
+		}
+		return checkAdd;
+	}
 
-		User newUser = new User(login, password, surname, name);
-		userDAO.create(newUser);
-		roleDAO.create(new Role(userDAO.get(newUser).getId(), role));
-		accountDAO.create(new Account(account, userDAO.get(newUser).getId(),
-				balance));
-		logger.info("Create new user " + newUser.getLogin());
+	public UserDAO getHibernateUserDAO() {
+		return hibernateUserDAO;
+	}
+
+	public void setHibernateUserDAO(UserDAO hibernateUserDAO) {
+		this.hibernateUserDAO = hibernateUserDAO;
+	}
+
+	public UserService() {
+		super();
 	}
 
 	public void deleteUser(int userID) {
 		User deleteUser = new User();
 		deleteUser.setId(userID);
-		userDAO.delete(deleteUser);
+		try {
+			hibernateUserDAO.delete(deleteUser);
+			logger.info("Delete user " + userID);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
 		logger.info("Delete user " + userID);
 	}
 
 	public User getUser(String login, String password) {
-		User getUser = new User();
-		getUser.setLogin(login);
-		getUser.setPassword(password);
-		logger.info("User login " + login);
-		return userDAO.get(getUser);
+		User getUser = null;
+		try {
+			getUser = hibernateUserDAO.getUser(login, password);
+			logger.info("User login " + login);
+			if (getUser == null) {
+				logger.info("UnsuccessfulUser login " + login);
+			} else {
+				logger.info("Successful login " + login);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return getUser;
 	}
 
 	public List<User> getListUser() {
-		return userDAO.readAll();
+		List<User> users = null;
+		try {
+			users = (List<User>) hibernateUserDAO.getAll();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return users;
 	}
 
 	public User getUserByID(int id) {
-		return userByID.getUserByID(id);
+		User user = null;
+		try {
+			user = hibernateUserDAO.getById(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 }

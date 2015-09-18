@@ -1,0 +1,6 @@
+entity\User.class
+entity\Account.class
+entity\Archive.class
+entity\Role.class
+entity\Operation.class
+entity\UserRole.class

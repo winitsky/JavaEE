@@ -9,12 +9,12 @@
             <th><fmt:message key="list.accounts.balance"/></th>
         </thead>
 
-        <c:forEach items="${accounts}" var="account">
+        
             <tr>
-                <td>${account.account}</td>
-                <td>${account.balance}</td>
+                <td>${accounts.account}</td>
+                <td>${accounts.balance}</td>
             </tr>
-        </c:forEach>
+      
 
     </table>
     <hr/>

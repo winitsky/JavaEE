@@ -2,57 +2,56 @@ package org.internetbank.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jmock.Mockery;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Before;
 import org.junit.Test;
 
+import dao.OperationDAO;
 import entity.Operation;
-import entity.User;
-import service.OperationInterface;
 import service.OperationService;
-import service.UserService;
-import dao.GenericDAO;
-import dao.InfoByUserIdDAO;
-import dao.UserByIDDAO;
-import dao.impl.JDBCOperationsDAOImpl;
+
 
 public class OperationServiceTest {
 
 	private Mockery context = new JUnit4Mockery();
+	public OperationDAO operationsDAO;
+
+	@Before
+	public void initTest() {
+		operationsDAO = context.mock(OperationDAO.class);
+
+	}
 
 	@Test
-	public void testGetAllOperations() {
-		final GenericDAO<Operation> operationsDAO = context
-				.mock(GenericDAO.class);
+	public void testGetAllOperations() throws SQLException {
 
 		final Operation operation1 = new Operation(1, "Оплата за телефон",
 				12312312, 2);
 		final Operation operation2 = new Operation(2, "Оплата за воду",
 				12300123, 2);
-		int userID = 2;
 		final List<Operation> operations = new ArrayList<Operation>();
 		operations.add(operation1);
 		operations.add(operation2);
 
 		context.checking(new Expectations() {
 			{
-				oneOf(operationsDAO).readAll();
+				oneOf(operationsDAO).getAll();
 				will(returnValue(operations));
 			}
 		});
 		OperationService operationService = new OperationService();
-		operationService.setOperationDAO(operationsDAO);
+		operationService.setHibernateOperationDAO(operationsDAO);
 		assertEquals(operations, operationService.getAllOperations());
 	}
 
 	@Test
-	public void testGetOperationsByUserID() {
-		final InfoByUserIdDAO operationsDAO = context
-				.mock(InfoByUserIdDAO.class);
+	public void testGetOperationsByUserID() throws SQLException {
 
 		final Operation operation1 = new Operation(1, "Оплата за телефон",
 				12312312, 2);
@@ -64,12 +63,12 @@ public class OperationServiceTest {
 
 		context.checking(new Expectations() {
 			{
-				oneOf(operationsDAO).getInfoByUserID(2);
+				oneOf(operationsDAO).getByUserId(2);
 				will(returnValue(operations));
 			}
 		});
 		OperationService operationService = new OperationService();
-		operationService.setInfoByUserID(operationsDAO);
+		operationService.setHibernateOperationDAO(operationsDAO);
 		assertEquals(operations, operationService.getOperationsByUserID(2));
 	}
 	/*

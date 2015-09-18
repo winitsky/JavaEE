@@ -5,6 +5,7 @@ public class Constants {
     
     public static final String PAGES_PAYMENT = "/pages/payment.jsp";
     public static final String PAGES_MAIN = "/pages/main.jsp";
+    public static final String PAGE_REGESTRATION= "/pages/regestration.jsp";
     public static final String PAGE_INDEX = "index.jsp";
 
     public static final String PARAM_FIRST_NAME = "firstName";

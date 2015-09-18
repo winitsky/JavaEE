@@ -26,17 +26,25 @@
 			<artifactId>internetbank.entity</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+		<!--  
 		<dependency>
 			<groupId>by.it.academy.internetbank</groupId>
 			<artifactId>internetbank.dao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+			--> 
+		<dependency>
+			<groupId>by.it.academy.internetbank</groupId>
+			<artifactId>internetbank.hibernateDAO</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	
 		<dependency>
 			<groupId>by.it.academy.internetbank</groupId>
 			<artifactId>internetbank.service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>

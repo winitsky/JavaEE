@@ -10,6 +10,8 @@
     <module>internetbank.entity</module>
     <module>internetbank.service</module>
     <module>internetbank.web</module>
+   <!--  <module>internetbank.hibernate</module> -->
+    <module>hibernateDAO</module>
   </modules>
   <build>
 		<finalName>InternetBank</finalName>

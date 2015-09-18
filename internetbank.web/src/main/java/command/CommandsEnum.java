@@ -13,6 +13,18 @@ public enum CommandsEnum {
 			return new LogoutCommand();
 		}
 	},
+	REGISTRATION {
+		@Override
+		public Command createCommand() {
+			return new RegistrationCommand();
+		}
+	},
+	MAKE_REGISTRATION {
+		@Override
+		public Command createCommand() {
+			return new MakeRegestrationCommand();
+		}
+	},
 	PAYMENT {
 		@Override
 		public Command createCommand() {

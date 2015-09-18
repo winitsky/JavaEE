@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<users id="1" login="petrov@mail.ru" password="123" surname="Petrov"
+		name="Petr" />
+	<users id="2" login="ivanov@mail.ru" password="123" surname="Ivanov"
+		name="Ivan" />
+	<users id="3" login="sidirov@tut.by" password="123" surname="Sidorov"
+		name="Sidor" />
+		
+			<accounts id="1" account="123456789" user_id="1" balance="50000" />
+	<accounts id="2" account="987654321" user_id="2" balance="4995000" />
+	<accounts id="3" account="321654987" user_id="3" balance="2800000" />
+
+</dataset>
