@@ -1,10 +1,14 @@
 package entity;
 
-public class Operation {
+import java.io.Serializable;
+
+public class Operation implements Serializable {
 	private int id;
 	private String name;
 	private int account;
 	private int type;
+	
+	private static final long serialVersionUID = 1L;
 	
 	public Operation() {
 		super();

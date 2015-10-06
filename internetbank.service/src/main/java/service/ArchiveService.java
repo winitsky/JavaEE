@@ -32,7 +32,7 @@ public class ArchiveService implements ArchiveInterface {
 		this.hibernateArhiveDAO = hibernateArhiveDAO;
 	}
 
-	public void addRecord(int userID, int operationID, int sum, String date) {
+	public void addRecord(int userID, int operationID, String sum, String date) {
 		try {
 			hibernateArhiveDAO.add(new Archive(userID, operationID, sum, date));
 		} catch (SQLException e) {

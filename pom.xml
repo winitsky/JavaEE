@@ -12,6 +12,7 @@
     <module>internetbank.web</module>
    <!--  <module>internetbank.hibernate</module> -->
     <module>hibernateDAO</module>
+    <module>internetbank.springdao</module>
   </modules>
   <build>
 		<finalName>InternetBank</finalName>
@@ -40,6 +41,7 @@
 					<path>/${project.artifactId}</path>
 				</configuration>
 			</plugin>
+			
 		</plugins>
 	</build>
 </project>

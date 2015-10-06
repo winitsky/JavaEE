@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 
 import pojo.OperationPojo;
 import pojo.UserPojo;
@@ -19,11 +17,9 @@ import dao.HibernateDAOUtil;
 import dao.OperationDAO;
 import dao.convertion.ConvertionClass;
 import entity.Operation;
-import entity.User;
 
-public class OperationDAOPojoImpl extends HibernateDAOUtil implements OperationDAO {
-	//public EntityManagerFactory factory = Persistence.createEntityManagerFactory("IBANK");
-	//public EntityManager em = factory.createEntityManager();
+public class OperationDAOPojoImpl extends HibernateDAOUtil implements
+		OperationDAO {
 
 	private static OperationDAOPojoImpl instance = new OperationDAOPojoImpl();
 
@@ -38,7 +34,7 @@ public class OperationDAOPojoImpl extends HibernateDAOUtil implements OperationD
 		}
 		return instance;
 	}
-	
+
 	public EntityManager getEm() {
 		return em;
 	}
@@ -47,15 +43,6 @@ public class OperationDAOPojoImpl extends HibernateDAOUtil implements OperationD
 		HibernateDAOUtil.em = em;
 	}
 
-	/*public EntityManagerFactory getFactory() {
-		return factory;
-	}
-
-	public void setFactory(EntityManagerFactory factory) {
-		this.factory = factory;
-
-	}*/
-	
 	public Operation getById(int id) throws SQLException {
 		OperationPojo operation = null;
 		Operation voOperation = null;
@@ -70,10 +57,6 @@ public class OperationDAOPojoImpl extends HibernateDAOUtil implements OperationD
 	public void add(Operation operation) throws SQLException {
 		OperationPojo operationPojo = ConvertionClass
 				.convertToOperationPojo(operation);
-		/*
-		 * em.getTransaction().begin(); em.merge(operationPojo);
-		 * em.getTransaction().commit();
-		 */
 		EntityTransaction transaction = null;
 		try {
 			transaction = em.getTransaction();
@@ -92,10 +75,6 @@ public class OperationDAOPojoImpl extends HibernateDAOUtil implements OperationD
 	public void update(Operation operation) throws SQLException {
 		OperationPojo operationPojo = ConvertionClass
 				.convertToOperationPojo(operation);
-		/*
-		 * em.getTransaction().begin(); em.merge(operationPojo);
-		 * em.getTransaction().commit();
-		 */
 		EntityTransaction transaction = null;
 		try {
 			transaction = em.getTransaction();
@@ -112,22 +91,6 @@ public class OperationDAOPojoImpl extends HibernateDAOUtil implements OperationD
 
 	@Override
 	public List<Operation> getByUserId(int id) throws SQLException {
-		/*
-		 * em.getTransaction().begin(); List<OperationPojo> operations = new
-		 * ArrayList<OperationPojo>(); UserPojo user = em.find(UserPojo.class,
-		 * id);
-		 * 
-		 * 
-		 * List<UserRolePojo> roles = new ArrayList<>( (Set<UserRolePojo>)
-		 * user.getRoles()); List<OperationPojo> temp;
-		 * 
-		 * for (int i = 0; i < roles.size(); i++) { temp = em
-		 * .createNamedQuery("GetOperationByRole", OperationPojo.class)
-		 * .setParameter("role", (long) (int) roles.get(i).getId())
-		 * .getResultList(); for (int j = 0; j < temp.size(); j++) {
-		 * operations.add(temp.get(j)); } } em.getTransaction().commit(); return
-		 * ConvertionClass.convetrToOperationCollection(operations);
-		 */
 		List<OperationPojo> operations = new ArrayList<OperationPojo>();
 		try {
 			UserPojo user = em.find(UserPojo.class, id);
@@ -153,12 +116,6 @@ public class OperationDAOPojoImpl extends HibernateDAOUtil implements OperationD
 
 	@Override
 	public Collection<Operation> getAll() throws SQLException {
-		/*
-		 * List<OperationPojo> operations; em.getTransaction().begin();
-		 * operations = em.createNamedQuery("Operation.getAll",
-		 * OperationPojo.class).getResultList(); em.getTransaction().commit();
-		 * return ConvertionClass.convetrToOperationCollection(operations);
-		 */
 		List<OperationPojo> operations;
 		try {
 			operations = em.createNamedQuery("Operation.getAll",
@@ -173,10 +130,6 @@ public class OperationDAOPojoImpl extends HibernateDAOUtil implements OperationD
 	public void delete(Operation operation) throws SQLException {
 		OperationPojo operationPojo = ConvertionClass
 				.convertToOperationPojo(operation);
-		/*
-		 * em.getTransaction().begin(); em.remove(em.find(OperationPojo.class,
-		 * operationPojo.getId())); em.getTransaction().commit();
-		 */
 		EntityTransaction transaction = null;
 		try {
 			transaction = em.getTransaction();

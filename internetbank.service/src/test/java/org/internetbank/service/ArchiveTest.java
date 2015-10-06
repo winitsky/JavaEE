@@ -29,10 +29,10 @@ public class ArchiveTest {
 
 	@Test
 	public void testGetArchiveByUserID() throws SQLException {
-		final Archive record1 = new Archive(2, 2, 1000, "20150804");
-		final Archive record2 = new Archive(2, 3, 2000, "20150804");
-		final Archive record3 = new Archive(1, 2, 1000, "20150804");
-		final Archive record4 = new Archive(1, 3, 2000, "20150804");
+		final Archive record1 = new Archive(2, 2, "1000", "20150804");
+		final Archive record2 = new Archive(2, 3, "2000", "20150804");
+		final Archive record3 = new Archive(1, 2, "1000", "20150804");
+		final Archive record4 = new Archive(1, 3, "2000", "20150804");
 		final List<Archive> archive = new ArrayList<Archive>();
 		final List<Archive> archiveUser = new ArrayList<Archive>();
 

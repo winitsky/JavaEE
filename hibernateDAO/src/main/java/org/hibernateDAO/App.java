@@ -28,7 +28,7 @@ public class App
     {
     	UserDAOPojoImpl userDAO = UserDAOPojoImpl.getInstance();
     	ArchiveDAO archiveDAO = ArchiveDAOPojoImpl.getInstance();
-    	Archive record = new Archive (2,4,5000,"20150907");
+    	Archive record = new Archive (2,4,"5000","20150907");
     	
     	OperationDAO operationDAO= OperationDAOPojoImpl.getInstance();
     	AccountDAO accountDAO = AccountDAOPojoImpl.getInstance();
@@ -44,7 +44,7 @@ public class App
     	try {
     		//System.out.println(userDAO.checkLogin("ivanov@mail.ru"));
     		System.out.println(userDAO.getAll());
-    		userDAO.delete(userDAO.getUser("tester", "123"));
+    		//userDAO.delete(userDAO.getUser("tester", "123"));
 			//UserRole role = UserRoleDAOPojoImpl.getInstance().getById(2);
 			//userDAO.add(user);
 			//user=userDAO.getUser("mail@tut.by", "123");

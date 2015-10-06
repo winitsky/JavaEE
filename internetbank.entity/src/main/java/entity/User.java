@@ -1,12 +1,29 @@
 package entity;
 
-public class User {
+import java.io.Serializable;
+
+import javax.validation.constraints.Pattern;
+
+public class User implements Serializable {
 	private int id;
+	@Pattern(regexp="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$" , message="Useraname look has form like email ")
 	private String login;
+	@Pattern(regexp="^[а-яА-ЯёЁa-zA-Z0-9]+$" , message="Wrong password, must be with no spaces")
 	private String password;
+	@Pattern(regexp="^[а-яА-ЯёЁa-zA-Z0-9]+$" , message="Wrong password, must be with no spaces")
 	private String surname;
+	@Pattern(regexp="^[а-яА-ЯёЁa-zA-Z0-9]+$" , message="Wrong name, must be with no spaces")
 	private String name;
-		
+	@Pattern(regexp="^[1-9]{1}\\d*$", message="Role must have number")
+	private String role;
+	@Pattern(regexp="^[1-9]{1}\\d*$", message="Account must have number")
+	private String account;
+	@Pattern(regexp="^[1-9]{1}\\d*$", message="Balance must have number")
+	private String balance;
+	
+	private static final long serialVersionUID = 1L;
+	
 	public User() {
 		super();
 	}
@@ -69,6 +86,32 @@ public class User {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balnce) {
+		this.balance = balnce;
 	}
 
 	@Override

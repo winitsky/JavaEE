@@ -1,18 +1,25 @@
 package entity;
 
-public class Archive {
+import java.io.Serializable;
+
+import javax.validation.constraints.Pattern;
+
+public class Archive implements Serializable {
 	private int id;
 	private int userID;
 	private int operationID;
-	private int sum;
+	@Pattern(regexp="^[1-9]{1}\\d*$", message="Sum must have number")
+	private String sum;
 	private String date;
 	private String nameOperaion;
+	
+	private static final long serialVersionUID = 1L;
 	
 	public Archive() {
 		super();
 	}
 
-	public Archive(int userID, int operationID, int sum, String date) {
+	public Archive(int userID, int operationID, String sum, String date) {
 		super();
 		this.userID = userID;
 		this.operationID = operationID;
@@ -22,7 +29,7 @@ public class Archive {
 	
 	
 
-	public Archive(int userID, int operationID, int sum, String date,
+	public Archive(int userID, int operationID, String sum, String date,
 			String nameOperaion) {
 		super();
 		this.userID = userID;
@@ -66,11 +73,11 @@ public class Archive {
 		this.operationID = operationID;
 	}
 
-	public int getSum() {
+	public String getSum() {
 		return sum;
 	}
 
-	public void setSum(int sum) {
+	public void setSum(String sum) {
 		this.sum = sum;
 	}
 

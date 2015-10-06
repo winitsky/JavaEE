@@ -19,8 +19,8 @@ import service.UserService;
 import bundle.Constants;
 
 public class LoginCommand implements Command {
-	static Logger logger = Logger.getLogger(LoginCommand.class);
-	static Logger loggerInfo = Logger.getLogger(LoginCommand.class);
+	//static Logger logger = Logger.getLogger(LoginCommand.class);
+	//static Logger loggerInfo = Logger.getLogger(LoginCommand.class);
 	
 	
 	public String execute(HttpServletRequest request,
@@ -28,8 +28,8 @@ public class LoginCommand implements Command {
 		String page = Constants.PAGE_INDEX;
 		HttpSession session = request.getSession();
 		
-		loggerInfo.setLevel(Level.INFO);
-		logger.setLevel(Level.ERROR);
+		//loggerInfo.setLevel(Level.INFO);
+		//logger.setLevel(Level.ERROR);
 
 		UserService usersService = new UserService();
 		AccountService accountService = new AccountService();
@@ -46,9 +46,9 @@ public class LoginCommand implements Command {
 			/*loggerInfo.info("Mistake of loggin "
 					+ request.getParameter(Constants.PARAM_EMAIL) + " "
 					+ request.getParameter(Constants.PARAM_PASSWORD));*/
-			logger.error("Mistake of loggin "
+			/*logger.error("Mistake of loggin "
 					+ request.getParameter(Constants.PARAM_EMAIL) + " "
-					+ request.getParameter(Constants.PARAM_PASSWORD));
+					+ request.getParameter(Constants.PARAM_PASSWORD));*/
 
 		} else {
 			ArrayList<Archive> archive = (ArrayList<Archive>) archiveService

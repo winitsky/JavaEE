@@ -1,11 +1,14 @@
 package entity;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable {
 	private Integer id;
 	private int account;
 	private int userID;
 	private int balance;
 	
+	private static final long serialVersionUID = 1L;
 	public Account() {
 		super();
 	}

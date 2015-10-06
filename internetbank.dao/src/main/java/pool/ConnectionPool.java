@@ -11,7 +11,7 @@ public class ConnectionPool {
 	private static ConnectionPool instance;
 	private BasicDataSource dataSource;
 
-	public ConnectionPool() {
+	private ConnectionPool() {
 		dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(DB_BUNDLE.getString("driver"));
 		dataSource.setUrl(DB_BUNDLE.getString("url"));

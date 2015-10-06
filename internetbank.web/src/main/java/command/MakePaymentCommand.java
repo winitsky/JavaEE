@@ -26,10 +26,10 @@ public class MakePaymentCommand implements Command {
 		User user = userService.getUserByID(Integer.valueOf(userID));
 
 		if (ValidateData.checkNumberField(request.getParameter("sum")) && (!request.getParameter("sum").equals("0"))) {
-			int sum = Integer.valueOf(request.getParameter("sum"));
+			String sum = request.getParameter("sum");
 			AccountService accountService = new AccountService();
 			Account account = accountService.getAccontsByUserID(user.getId());
-			if (accountService.updateBalance(sum, account)) {
+			if (accountService.updateBalance(Integer.valueOf(sum), account)) {
 				int operationID = Integer.valueOf(request
 						.getParameter("paymentList"));
 				ArchiveService archiveService = new ArchiveService();

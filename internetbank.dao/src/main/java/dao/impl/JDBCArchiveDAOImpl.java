@@ -46,7 +46,7 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> implements
 			statement.setInt(2, object.getUserID());
 			statement.setInt(3, object.getOperationID());
 			statement.setString(4, object.getDate());
-			statement.setInt(5, object.getSum());
+			statement.setInt(5, Integer.valueOf(object.getSum()));
 
 		}
 		if (methodName == "create") {
@@ -63,7 +63,7 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> implements
 
 			statement.setInt(1, object.getUserID());
 			statement.setInt(2, object.getOperationID());
-			statement.setInt(3, object.getSum());
+			statement.setInt(3, Integer.valueOf(object.getSum()));
 			statement.setDate(4, date);
 		}
 		if (methodName == "delete") {
@@ -86,7 +86,7 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> implements
 				record.setUserID(resultSet.getInt("user_id"));
 				record.setOperationID(resultSet.getInt("operation_id"));
 				record.setDate(resultSet.getString("date"));
-				record.setSum(resultSet.getInt("sum"));
+				record.setSum(String.valueOf(resultSet.getInt("sum")));
 				archive.add(record);
 			}
 		} catch (SQLException e) {
@@ -104,7 +104,7 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> implements
 				record.setUserID(resultSet.getInt("user_id"));
 				record.setOperationID(resultSet.getInt("operation_id"));
 				record.setDate(resultSet.getString("date"));
-				record.setSum(resultSet.getInt("sum"));
+				record.setSum(String.valueOf(resultSet.getInt("sum")));
 			}
 		} catch (SQLException e) {
 			logger.error(new CustomException("Custom exception", e));
@@ -126,7 +126,7 @@ public class JDBCArchiveDAOImpl extends AbstractDAO<Archive> implements
 				Archive record = new Archive();
 				record.setId(resultSet.getInt("user_id"));
 				record.setNameOperaion(resultSet.getString("name"));
-				record.setSum(resultSet.getInt("sum"));
+				record.setSum(String.valueOf(resultSet.getInt("sum")));
 				record.setDate(resultSet.getString("date"));
 				archive.add(record);
 			}

@@ -1,6 +1,6 @@
 MKDIR d:\ibank\
 cd /D d:\ibank\
-git clone -b develop https://github.com/winitsky/JavaEE.git
+git clone -b spring https://github.com/winitsky/JavaEE.git
 
 
 cd /d d:\ibank\JavaEE\
